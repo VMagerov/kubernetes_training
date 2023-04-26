@@ -1,0 +1,52 @@
+version: '3.4'
+
+services:
+  users:
+    image: vladimirmagerov/user_service:1.0.0
+    environment:
+      - POSTGRES_DB_HOST=user_db
+      - POSTGRES_USER=admin
+      - POSTGRES_DB=users
+      - POSTGRES_PASSWORD=admin1234
+    ports:
+      - "8080:8080"
+    depends_on:
+      - user_db
+
+  user_db:
+    image: postgres:10
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_DB=users
+      - POSTGRES_PASSWORD=admin1234
+    volumes:
+      - pg_users_data:/var/lib/postgresql/data
+
+  posts:
+    image: vladimirmagerov/post_service:1.0.0
+    environment:
+      - POSTGRES_DB_HOST=post_db
+      - POSTGRES_USER=admin
+      - POSTGRES_DB=posts
+      - POSTGRES_PASSWORD=admin1234
+    ports:
+      - "8090:8090"
+    depends_on:
+      - post_db
+
+  post_db:
+    image: postgres:10
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_DB=posts
+      - POSTGRES_PASSWORD=admin1234
+    volumes:
+      - pg_posts_data:/var/lib/postgresql/data
+
+volumes:
+  pg_users_data: {}
+  pg_posts_data: {}
