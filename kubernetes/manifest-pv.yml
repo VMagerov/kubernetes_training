@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgres-pv-volume-user
+  namespace: k8s-program
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 300M
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/data/user"
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pv-claim-user
+  namespace: k8s-program
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100M
